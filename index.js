@@ -23,7 +23,7 @@ module.exports = function(chai) {
         // use chai inspect hook, todo magic things:
         // https://github.com/chaijs/chai/blob/master/lib/chai/utils/inspect.js#L63
         $element.inspect = function() {
-          return "$('"+that.getDebugSelector()+"')";
+          return that.inspectMessage();
         };
       }
 
@@ -73,6 +73,31 @@ module.exports = function(chai) {
     this.containsText = function(expected, message) {
       expect(that.element().text(), message).to.contain(expected);
       return this;
+    };
+
+    this.hasAttribute = function(attributeName, expected) {
+      // @TODO build a chai assertion for attr here
+      var attributeValue = that.element().attr(attributeName);
+      var attribute = new String(attributeValue);
+      
+      attribute.inspect = function() {
+        return that.inspectMessage('["'+attributeName+'"]');
+      };
+
+      if (arguments.length === 1) {
+        expect(attribute).to.be.not.undefined;
+      } else {
+        expect(attribute).to.satisfy(function () { return attributeValue === expected; });
+      }
+    };
+
+    this.inspectMessage = function(append) {
+      var msg = "$('"+that.getDebugSelector();
+      if (append) {
+        msg += append;
+      }
+      msg += "')";
+      return msg;
     };
   };
 
