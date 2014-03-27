@@ -21,6 +21,17 @@ module.exports = function(grunt) {
       }
     },
 
+    simplemocha: {
+      options: {
+        timeout: 2000,
+        ignoreLeaks: true,  // globals hack for jquery in node
+        ui: 'bdd',
+        reporter: 'spec'
+      },
+
+      all: { src: ['test/**/*Test.js'] }
+    },
+
     release: {
        options: {
          bump: true,
@@ -36,5 +47,6 @@ module.exports = function(grunt) {
      }
   });
 
-  grunt.registerTask('test', ['jshint']);
+  grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('test', ['simplemocha']);
 };
