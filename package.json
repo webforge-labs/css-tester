@@ -1,10 +1,10 @@
 {
   "name": "css-tester",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "chained testing with expect and jquery",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt test"
   },
   "keywords": [
     "css",
@@ -13,5 +13,11 @@
     "expect"
   ],
   "author": "Philipp Scheit",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "~0.4.4",
+    "grunt-contrib-jshint": "~0.9.2",
+    "matchdep": "~0.3.0",
+    "grunt-release": "~0.7.0"
+  }
 }
