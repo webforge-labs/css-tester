@@ -12,6 +12,7 @@
     "jquery",
     "expect"
   ],
+  "repository": "https://github.com/webforge-labs/css-tester",
   "author": "Philipp Scheit",
   "license": "MIT",
   "devDependencies": {
