@@ -1,0 +1,17 @@
+{
+  "name": "css-tester",
+  "version": "1.0.0",
+  "description": "chained testing with expect and jquery",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "css",
+    "test",
+    "jquery",
+    "expect"
+  ],
+  "author": "Philipp Scheit",
+  "license": "MIT"
+}
