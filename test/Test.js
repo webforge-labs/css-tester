@@ -58,9 +58,21 @@ describe('CSSTester', function() {
         .css('a').exists().hasAttribute('href', '/teilnehmen').end();
   });
 
-  it("can test the the comparison of two strings", function() {
+  it("can test the complete text content of an element", function() {
     css('.hero')
-      .css('h2').exists().text('Die Frankfurter Plattform zum Stromsparen.');
+      .css('h2').exists().text('Die Frankfurter Plattform zum Stromsparen.').end();
   });
 
+  it("can test partial text content of an element", function() {
+    css('.hero')
+      .css('h2').exists().containsText('Plattform').end();
+  });
+
+  it("can test a is constraint for an element", function() {
+    css('.hero')
+      .css('h2').exists()
+        .is(':visible')
+        .is(':not(:visible)', false)
+       .end();
+  });
 });

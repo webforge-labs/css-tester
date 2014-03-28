@@ -102,6 +102,18 @@ module.exports = function(chai) {
       return this;
     };
 
+    this.is = function(constraint, expected) {
+
+      var is = expect(that.element().is(constraint), 'is('+constraint+')');
+      if (arguments.length === 1 || expected) {
+        is.to.be.true;
+      } else {
+        is.to.be.false;
+      }
+      
+      return this;
+    };
+
     this.inspectMessage = function(append) {
       var msg = "$('"+that.getDebugSelector();
       if (append) {
