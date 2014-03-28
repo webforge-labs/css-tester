@@ -59,10 +59,8 @@ describe('CSSTester', function() {
   });
 
   it("can test the the comparison of two strings", function() {
-    var $h2 = css('.hero').exists()
-      .css('h2').exists().get();
-
-    expect($h2.text()).to.be.equal('Die Frankfurter Plattform zum Stromsparen.');
+    css('.hero')
+      .css('h2').exists().text('Die Frankfurter Platttform zum Stromsparen.');
   });
 
 });
