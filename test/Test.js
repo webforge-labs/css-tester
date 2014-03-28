@@ -57,5 +57,12 @@ describe('CSSTester', function() {
       .css('.panel-body')
         .css('a').exists().hasAttribute('href', '/teilnehmen').end();
   });
-  
+
+  it("can test the the comparison of two strings", function() {
+    var $h2 = css('.hero').exists()
+      .css('h2').exists().get();
+
+    expect($h2.text()).to.be.equal('Die Frankfurter Plattform zum Stromsparen.');
+  });
+
 });
