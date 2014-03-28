@@ -41,7 +41,7 @@ module.exports = function(grunt) {
          push: true, 
          pushTags: true, 
          npm: true, 
-         commitMessage: 'release <%= version %>',
+         commitMessage: 'release <%= version %> [ci skip]',
          tagMessage: 'Version <%= version %>'
        }
      }
