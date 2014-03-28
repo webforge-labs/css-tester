@@ -89,6 +89,8 @@ module.exports = function(chai) {
       } else {
         expect(attribute).to.satisfy(function () { return attributeValue === expected; });
       }
+
+      return this;
     };
 
     this.inspectMessage = function(append) {

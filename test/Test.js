@@ -35,19 +35,18 @@ describe('CSSTester', function() {
       css('.panel.register').exists()
         .css('.panel-heading').exists();
     });
-
-    it("can test the attribute existance", function() {
-      css('.panel.register')
-        .css('.panel-body')
-          .css('a').exists().hasAttribute('href');
-    });
-
-    it("can test the attribute value", function() {
-      css('.panel.register')
-        .css('.panel-body')
-          .css('a').exists().hasAttribute('href', '/teilnehmen');
-    });
-
   });
 
+  it("can test the attribute existance", function() {
+    css('.panel.register')
+      .css('.panel-body')
+        .css('a').exists().hasAttribute('href');
+  });
+
+  it("can test the attribute value", function() {
+    css('.panel.register')
+      .css('.panel-body')
+        .css('a').exists().hasAttribute('href', '/teilnehmen').end();
+  });
+  
 });
