@@ -13,12 +13,13 @@
   "eqnull": true,
   "browser": true,
   "jquery": true,
+  "expr": true,
   "globals": {
     "$": true,
-    "define": true, 
+    "define": true,
     "require": true,
     "requirejs": true,
-      
+
     "QUnit": true, "module": true, "stop": true, "start": true, "ok": true, "asyncTest": true, "test": true, "expect": true
   }
 }

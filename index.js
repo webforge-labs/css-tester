@@ -79,11 +79,16 @@ module.exports = function(chai) {
       return this;
     };
 
+    this.text = function(expected, message) {
+      expect(that.element().text(), message).to.equal(expected);
+      return this;
+    };
+
     this.hasAttribute = function(attributeName, expected) {
       // @TODO build a chai assertion for attr here
       var attributeValue = that.element().attr(attributeName);
-      var attribute = new String(attributeValue);
-      
+      var attribute = new String(attributeValue);  // jshint ignore:line
+
       attribute.inspect = function() {
         return that.inspectMessage('["'+attributeName+'"]');
       };
