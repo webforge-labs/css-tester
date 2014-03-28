@@ -35,6 +35,15 @@ describe('CSSTester', function() {
       css('.panel.register').exists()
         .css('.panel-heading').exists();
     });
+
+    it("returns the last jquery object with get()", function() {
+      var $a = css('.panel.register').exists()
+        .css('.panel-body').exists()
+          .css('a').exists().get();
+
+      expect($a.jquery).to.be.ok;
+      expect($a.attr('href')).to.be.equal('/teilnehmen');
+    });
   });
 
   it("can test the attribute existance", function() {

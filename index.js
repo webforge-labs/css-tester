@@ -47,6 +47,10 @@ module.exports = function(chai) {
       return that.context;
     };
 
+    this.get = function() {
+      return that.element();
+    };
+
     // expectations
 
     var expectElement = function(message) {
