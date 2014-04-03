@@ -2,6 +2,9 @@ module.exports = function(chai) {
   var assert = chai.assert;
   var expect = chai.expect;
 
+  // disable truncating to "shorter" messages for objects, to always use inspect() for our element
+  chai.config.truncateThreshold = 0;
+
   var CSSTest = function CSSTest($, selector, context) {
     var that = this;
 
