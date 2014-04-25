@@ -75,4 +75,9 @@ describe('CSSTester', function() {
         .is(':not(:visible)', false)
        .end();
   });
+
+  it("can test regular expression with matches", function() {
+    css('.hero h2').exists().matches(/\s+Stromsparen/);
+
+  });
 });

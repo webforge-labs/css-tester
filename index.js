@@ -87,6 +87,11 @@ module.exports = function(chai) {
       return this;
     };
 
+    this.matches = function(regexp, message) {
+      expect(that.element().text(), message).to.match(regexp);
+      return this;
+    };
+
     this.hasAttribute = function(attributeName, expected) {
       // @TODO build a chai assertion for attr here
       var attributeValue = that.element().attr(attributeName);
@@ -107,7 +112,7 @@ module.exports = function(chai) {
 
     this.is = function(constraint, expected) {
 
-      var is = expect(that.element().is(constraint), 'is('+constraint+')');
+      var is = expect(that.element().is(constraint), that.element().inspect()+'.is("'+constraint+'")');
       if (arguments.length === 1 || expected) {
         is.to.be.true;
       } else {
