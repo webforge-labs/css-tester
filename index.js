@@ -8,6 +8,8 @@ module.exports = function(chai) {
   var CSSTest = function CSSTest($, selector, context) {
     var that = this;
 
+    this._isCSSTester = true;
+
     this.context = context;
     this.selector = selector;
     this.debugSelector = undefined; // setter injection
@@ -39,7 +41,7 @@ module.exports = function(chai) {
 
     // traversion
 
-    this.css = function(childSelector, context) {
+    this.css = function(childSelector) {
       var cssTest = new CSSTest($, childSelector, that);
       cssTest.debugSelector = selector+' '+childSelector;
 
@@ -104,7 +106,8 @@ module.exports = function(chai) {
       if (arguments.length === 1) {
         expect(attribute).to.be.not.undefined;
       } else {
-        expect(attribute).to.satisfy(function () { return attributeValue === expected; });
+        expect(attribute, "expected attr value '"+attributeValue+"' to be equal '"+expected+"'")
+          .to.satisfy(function () { return attributeValue === expected; });
       }
 
       return this;
@@ -129,6 +132,14 @@ module.exports = function(chai) {
       }
       msg += "')";
       return msg;
+    };
+
+    this.toString = function() {
+      return 'CSSTest';
+    };
+
+    this.inspect = function() {
+      return 'CSSTest: '+this.inspectMessage();
     };
   };
 
