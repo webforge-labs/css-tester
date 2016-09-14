@@ -4,14 +4,6 @@ module.exports = function(grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-
-    banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
-      '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-      '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
-      '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-      ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
-
     jshint: {
       options: {
         jshintrc: '.jshintrc',
@@ -32,21 +24,15 @@ module.exports = function(grunt) {
       all: { src: ['test/**/*Test.js'] }
     },
 
-    release: {
-       options: {
-         bump: true,
-         add: true, 
-         commit: true,
-         tag: true, 
-         push: true, 
-         pushTags: true, 
-         npm: true, 
-         commitMessage: 'release <%= version %> [ci skip]',
-         tagMessage: 'Version <%= version %>'
-       }
-     }
+    connect: {
+      example: {
+        port: 8000,
+        base: 'test/files'
+      }
+    }
   });
 
   grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('server', ['connect']);
   grunt.registerTask('test', ['jshint', 'simplemocha']);
 };
