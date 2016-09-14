@@ -45,6 +45,13 @@ module.exports = function(chai) {
       return that;
     };
 
+    this.atLeast = function(number) {
+      assert.isNumber(number, 'argument #1 to atLeast');
+      expect(elements(), message('')).to.have.a.length.atLeast(number);
+
+      return that;
+    };
+
     this.hasAttribute = function(name, value) {
       var attribute = client.getAttribute(elementsSelector(), name);
 

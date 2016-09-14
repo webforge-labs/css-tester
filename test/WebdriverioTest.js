@@ -3,7 +3,8 @@
 
 var chai = require('chai');
 var expect = chai.expect;
-var WebdriverioCSSTest = require('../index').Webdriverio(chai);
+var cssTester = require('../index');
+var WebdriverioCSSTest = cssTester.Webdriverio(chai);
 
 describe('CSSTester', function() {
   before(function(done) {
@@ -13,6 +14,14 @@ describe('CSSTester', function() {
   var css = function(selector) {
     return new WebdriverioCSSTest(browser, selector);
   };
+
+  it('injects into some testing env', function() {
+    var env = {};
+
+    cssTester.inject(env, chai);
+
+    expect(env.css).to.be.a('function');
+  });
 
   it('can handle class selectors', function() {
     css('.panel').exists();
