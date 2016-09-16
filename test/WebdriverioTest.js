@@ -32,9 +32,6 @@ describe('CSSTester', function() {
     }).to.throw(chai.AssertionError);
   });
 
-  it('finds non existing elements', function() {
-  });
-
   it('can handle concatenated classes', function() {
     css('.panel.register').exists();
 
@@ -59,6 +56,12 @@ describe('CSSTester', function() {
       .css('.panel-body').exists()
         .css('a').exists().get();
 
+    expect(a.isExisting(), 'isExisting() from selected element').to.be.true;
+  });
+
+  it('can use jquery special selectors with get()', function() {
+    var a = css('.panel.register .panel-body a:contains("teilnehmen"):first').get();
+    
     expect(a.isExisting(), 'isExisting() from selected element').to.be.true;
   });
 
@@ -104,6 +107,14 @@ describe('CSSTester', function() {
         .css('a').exists().hasAttribute('href', 'http://localhost:8000/teilnehmen').end();
   });
 
+  it("can retrieve the attribute value", function() {
+    var href = css('.panel.register')
+      .css('.panel-body')
+        .css('a').exists().getAttribute('href');
+
+    expect(href).to.be.eql('http://localhost:8000/teilnehmen');
+  });
+
   it("cannot test the complete text content from several elements", function() {
     testSeveralMatchesException(function() {
       css('p').text('does-not-matter');
@@ -128,5 +139,10 @@ describe('CSSTester', function() {
       css('.hero')
         .css('h2').exists().containsText('not-existing').end();
     }).to.throw(chai.AssertionError);
+  });
+
+  it('can test with :contains for text in elements combined with classes before', function() {
+    var panelId = css('.hero .panel-heading:contains("Plattform")').exists().getAttribute('id');
+    expect(panelId).to.be.equal('hero-panel');
   });
 });

@@ -4,7 +4,7 @@
   "description": "chained testing for dom elements with chai",
   "main": "index.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "wdio"
   },
   "keywords": [
     "css",
