@@ -50,7 +50,7 @@ module.exports = function(chai) {
     }
 
     var elementsCache = undefined, elementCache = undefined;
-    var elements = function() {
+    var elements = this.elements = function() {
       if (elementsCache) return elementsCache;
 
       return elementsCache = jqueryHack(elementsSelector(), false);
@@ -151,7 +151,8 @@ module.exports = function(chai) {
 
     this.get = function() {
       return element();
-    }
+    };
+
 
     this.click = function() {
       client.elementIdClick(elementId('click'));
