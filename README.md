@@ -1,4 +1,4 @@
-css-tester
+css-tester [![Build Status](https://travis-ci.org/webforge-labs/css-tester.svg?branch=master)](https://travis-ci.org/webforge-labs/css-tester)
 ==========
 
 chained testing with (chai) expect and jquery
