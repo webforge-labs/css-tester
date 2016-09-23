@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - "4"
+  - "5"
 
 branches:
   only:
@@ -10,7 +10,8 @@ branches:
 before_script:
   - npm install selenium-standalone@latest -g
   - selenium-standalone install
-  - nohup selenium-standalone start > selenium.txt 2>&1 </dev/null &
+  - nohup bash -c "selenium-standalone start 2>&1 &"
+  - nohup bash -c "grunt server 2>&1 &"
   - npm install -g grunt-cli
   - grunt --version
 
