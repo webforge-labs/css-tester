@@ -10,10 +10,10 @@ branches:
 before_script:
   - npm install selenium-standalone@latest -g
   - selenium-standalone install
-  - nohup bash -c "selenium-standalone start 2>&1 &"
-  - nohup bash -c "grunt server 2>&1 &"
   - npm install -g grunt-cli
   - grunt --version
+  - nohup bash -c "selenium-standalone start 2>&1 &"
+  - nohup bash -c "grunt server 2>&1 &"
 
 notifications:
   hipchat: 1fbdbbbaa517c485f935a6d72f1110@239240
