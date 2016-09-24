@@ -102,8 +102,20 @@ module.exports = function(chai) {
       return that;
     };
 
+    this.isNotVisible = function() {
+      expect(element().isVisible(), message('->isVisible()')).to.be.false;
+
+      return that;
+    };
+
     this.waitForVisible = function(ms) {
       element().waitForVisible(undefined, ms || 1000);
+
+      return that;
+    }
+
+    this.waitForNotVisible = function(ms) {
+      element().waitForVisible(undefined, ms || 1000, true);
 
       return that;
     }
@@ -127,20 +139,20 @@ module.exports = function(chai) {
     };
 
 
-    var elementText = function() {
+    this.getText = function() {
       var res = client.elementIdText(elementId('text/containsText()'));
 
       return res.value;
     };
 
     this.text = function(value) {
-      expect(elementText(), message(':text')).to.be.equal(value);
+      expect(that.getText(), message(':text')).to.be.equal(value);
 
       return that;
     };
 
     this.containsText = function(value) {
-      expect(elementText(), message(':text')).to.have.string(value);
+      expect(that.getText(), message(':text')).to.have.string(value);
 
       return that;
     };
