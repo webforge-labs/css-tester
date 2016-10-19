@@ -69,7 +69,7 @@ module.exports = function(chai) {
     var elementId = function(caller) {
       var match = elements().value;
 
-      expect(match, message('matches several elements in the dom. You cannot cast '+caller+' on them. You need to adjust the selector to match only one element')).to.have.lengthOf(1);
+      expect(match, message('matches several or none elements in the dom. You cannot cast '+caller+' on them. You need to adjust the selector to match only one element')).to.have.lengthOf(1);
 
       var json = match[0];
 
@@ -112,13 +112,19 @@ module.exports = function(chai) {
       element().waitForVisible(undefined, ms || 1000);
 
       return that;
-    }
+    };
+
+    this.waitForExist = function(ms) {
+      element().waitForExist(undefined, ms || 1000);
+
+      return that;
+    };
 
     this.waitForNotVisible = function(ms) {
       element().waitForVisible(undefined, ms || 1000, true);
 
       return that;
-    }
+    };
 
     this.getAttribute = function(name) {
       var res = client.elementIdAttribute(elementId('getAttribute/hasAttribute'), name);
@@ -141,6 +147,30 @@ module.exports = function(chai) {
 
     this.getText = function() {
       var res = client.elementIdText(elementId('text/containsText()'));
+
+      return res.value;
+    };
+
+    this.getTexts = function() {
+      var texts = [];
+      elementsValue().forEach(function(elem) {
+        var res = client.elementIdText(elem.ELEMENT);
+        texts.push(res.value);
+      });
+        
+      return texts;
+    };
+
+    this.getHtmls = function() {
+      var res = client.execute(function(selector) {
+        var html = [];
+
+        window.jQuery(selector).each(function() {
+          html.push($(this).html());
+        });
+
+        return html;
+      }, elementsSelector());
 
       return res.value;
     };

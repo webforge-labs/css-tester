@@ -77,7 +77,7 @@ describe('CSSTester', function() {
       }
     }).to.throw(chai.AssertionError);
 
-    expect(assertion.toString()).to.have.string('matches several elements');
+    expect(assertion.toString()).to.have.string('matches several or none elements');
     expect(assertion.toString()).to.have.string('You need to adjust the selector to match only one element');
   };
 
@@ -144,5 +144,33 @@ describe('CSSTester', function() {
   it('can test with :contains for text in elements combined with classes before', function() {
     var panelId = css('.hero .panel-heading:contains("Plattform")').exists().getAttribute('id');
     expect(panelId).to.be.equal('hero-panel');
+  });
+
+  it('can retrieve the text from an match element', function() {
+    var li = css('.hero .panel-body ul li:eq(0)').exists()
+
+    expect(li.getText()).to.be.equal('Mitmachen und Austauschen');
+  });
+
+  it('can retrieve all text contents from a set of matched elementes', function() {
+    var lis = css('.hero .panel-body ul').exists()
+      .css('li').count(3);
+
+    var texts = lis.getTexts();
+
+    expect(texts, JSON.stringify(texts)).to.be.eql([
+      'Mitmachen und Austauschen',
+      'Stromsparen, aber richtig',
+      'Prämien und Angebote nutzen'
+    ]);
+  });
+
+  it('can retrieve all (jquery)-html contents from a set of matched elementes', function() {
+    var lis = css('footer ul').exists()
+      .css('li').count(3);
+
+    var texts = lis.getHtmls();
+
+    expect(texts).to.be.eql(['eins', 'zwei', 'drei']);
   });
 });

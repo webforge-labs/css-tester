@@ -4,7 +4,7 @@
   "description": "chained testing for dom elements with chai",
   "main": "index.js",
   "scripts": {
-    "test": "wdio"
+    "test": "node_modules/.bin/wdio"
   },
   "keywords": [
     "css",
