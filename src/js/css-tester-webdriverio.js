@@ -56,6 +56,10 @@ module.exports = function(chai) {
       return elementsCache = jqueryHack(elementsSelector(), false);
     };
 
+    var invalidateCache = function() {
+      elementsCache = elementCache = undefined;
+    };
+
     var element = function() {
       if (elementCache) return elementCache;
 
@@ -109,19 +113,43 @@ module.exports = function(chai) {
     };
 
     this.waitForVisible = function(ms) {
-      element().waitForVisible(undefined, ms || 1000);
+      ms = ms || 1000;
+      client.waitUntil(
+        function () {
+          invalidateCache();
+          if (!elementsValue().length) {
+            return false;
+          }
 
-      return that;
-    };
+          var result = client.elementIdDisplayed(elementId('waitForVisible'));
 
-    this.waitForExist = function(ms) {
-      element().waitForExist(undefined, ms || 1000);
+          return result.value;
+        },
+        ms,
+        message('is not visible (waited for '+ms+'ms)'),
+        ms/5
+      );
 
       return that;
     };
 
     this.waitForNotVisible = function(ms) {
       element().waitForVisible(undefined, ms || 1000, true);
+
+      return that;
+    };
+
+    this.waitForExist = function(ms) {
+      ms = ms || 1000;
+      client.waitUntil(
+        function () {
+          invalidateCache();
+          return elementsValue().length > 0;
+        },
+        ms,
+        message('is not existing (waited for '+ms+'ms)'),
+        ms/5
+      );
 
       return that;
     };
@@ -195,6 +223,25 @@ module.exports = function(chai) {
       return element();
     };
 
+    this.setValue = function(value) {
+      var id = elementId('setValue');
+      client.elementIdClear(id);
+      client.elementIdValue(id, value);
+
+      return that;
+    }
+
+    this.getValue = function() {
+      var res = client.elementIdAttribute(elementId('getValue'), 'value');
+
+      return res.value;
+    }
+
+    this.value = function(value) {
+      expect(that.getValue(), message(':value')).to.be.equal(value);
+
+      return that;
+    };
 
     this.click = function() {
       client.elementIdClick(elementId('click'));

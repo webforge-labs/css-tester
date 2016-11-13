@@ -173,4 +173,33 @@ describe('CSSTester', function() {
 
     expect(texts).to.be.eql(['eins', 'zwei', 'drei']);
   });
+
+  it('can waitForVisible for already visible and existing elements', function() {
+    css('footer ul li:eq(0)').waitForVisible().isVisible();
+  });
+
+  it('cant waitForVisible for non visible elements', function() {
+    expect(function() {
+      css('footer ul li:eq(1)').waitForVisible();
+    }).to.throw(Error, /jQuery\('footer ul li:eq\(1\)'\) is not visible \(waited for 1000ms\)/);
+  });
+
+  it('can waitForNotVisible for non visible elements', function() {
+    css('footer ul li:eq(1)').waitForNotVisible();
+  });
+
+  it('can assert right value of inputs', function() {
+    css('form input[name="xyz"]').exists().value('zwei drei vier');
+  });
+
+  it('can assert wrong value of inputs', function() {
+    expect(function() {
+      css('form input[name="xyz"]').value('not the right value');
+    }).to.throw(chai.AssertionError, /zwei drei vier/);
+  });
+
+  it('can change the value of inputs', function() {
+    var input = css('form input[name="xyz"]').setValue('new');
+    input.value('new');
+  });
 });
