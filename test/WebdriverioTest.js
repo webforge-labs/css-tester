@@ -42,6 +42,11 @@ describe('CSSTester', function() {
     }).to.throw(chai.AssertionError);
   });
 
+  it('can handle multiple selectors on level 1', function() {
+    css('aside .news').exists()
+      .css('.fa-comment, .fa-circle').count(2, 'it should not find the fa-icon out of the .news panel');
+  });
+
   it("can test the existance of nested elements", function() {
     var heading = css('.panel.register').exists()
       .css('.panel-heading').exists()

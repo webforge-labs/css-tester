@@ -8,52 +8,69 @@ module.exports = function(chai) {
     this.context = context;
     this.selector = selector;
 
-    var elementsSelector = this._elementsSelector = function() {
-      return (that.context ? that.context._elementsSelector()+' ' : '')+that.selector;
-    };
+    this._elementsSelectorChain = that.context ? that.context._elementsSelectorChain.concat([that.selector]) : [that.selector];
 
     var message = function(part) {
-      return "jQuery('"+elementsSelector()+"') "+part;
+      var chain = that._elementsSelectorChain;
+
+      var expression = "jQuery('"+chain[0]+"')";
+
+      chain.slice(1).forEach(function(selector) {
+        expression = expression + ".find('"+selector+"')";
+      });
+
+      return expression+" "+part;
     };
 
     this.css = function(selector) {
       return new CSSTest(client, selector, that);
     };
 
-    var jqueryHack = function(selector, single) {
+
+    var jqueryHack = function(selectorsChain, single) {
       var res = browser.executeAsync(
-        function(selector, single, done) {
-          var onjQuery = single ? function(selector, done) {
-            done(window.jQuery(selector).get(0));
-          } : function(selector, done) {
-            done(window.jQuery(selector).toArray());
+        function(selectorsChain, single, done) {
+          var loadjQuery = function(window, callback) {
+            if (!window.jQuery) {
+              var headID = window.document.getElementsByTagName("head")[0];
+              var newScript = window.document.createElement('script');
+              newScript.type = 'text/javascript';
+              newScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js';
+              headID.appendChild(newScript);
+
+              window.setTimeout(function() {
+                callback(window.jQuery);
+              }, 2000);
+            } else {
+              callback(window.jQuery);
+            }
           };
 
-          if (!window.jQuery) {
-            var headID = document.getElementsByTagName("head")[0];
-            var newScript = document.createElement('script');
-            newScript.type = 'text/javascript';
-            newScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js';
-            headID.appendChild(newScript);
+          loadjQuery(window, function($) {
+            var $elements, max = selectorsChain.length;
 
-            window.setTimeout(function() {
-              onjQuery(selector, done);
-            }, 2000);
-          } else {
-            onjQuery(selector, done);
-          }
+            for (var i = 0; i < max; i++) {
+              $elements = $(selectorsChain[i], $elements);
+            }
+
+            if (single) {
+              done($elements.get(0));
+            } else {
+              done($elements.toArray())
+            }
+          });
         },
-        selector, single
+        selectorsChain, single
       );
 
       return res;
-    }
+    };
 
     var elementsCache = undefined, elementCache = undefined;
     var elements = this.elements = function() {
       if (elementsCache) return elementsCache;
 
-      return elementsCache = jqueryHack(elementsSelector(), false);
+      return elementsCache = jqueryHack(that._elementsSelectorChain, false);
     };
 
     var invalidateCache = function() {
@@ -63,7 +80,7 @@ module.exports = function(chai) {
     var element = function() {
       if (elementCache) return elementCache;
 
-      return elementCache = jqueryHack(elementsSelector(), true);
+      return elementCache = jqueryHack(that._elementsSelectorChain, true);
     };
 
     var elementsValue = function() {
@@ -190,15 +207,20 @@ module.exports = function(chai) {
     };
 
     this.getHtmls = function() {
-      var res = client.execute(function(selector) {
+      var res = client.execute(function(selectorsChain) {
         var html = [];
 
-        window.jQuery(selector).each(function() {
+        var $elements, max = selectorsChain.length;
+        for (var i = 0; i < max; i++) {
+          $elements = $(selectorsChain[i], $elements);
+        }
+
+        $elements.each(function() {
           html.push($(this).html());
         });
 
         return html;
-      }, elementsSelector());
+      }, that._elementsSelectorChain);
 
       return res.value;
     };
