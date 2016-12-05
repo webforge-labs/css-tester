@@ -1,6 +1,6 @@
 {
   "name": "css-tester",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "chained testing for dom elements with chai",
   "main": "index.js",
   "scripts": {
