@@ -112,7 +112,7 @@ module.exports = function(chai) {
 
     this.atLeast = function(number) {
       assert.isNumber(number, 'argument #1 to atLeast');
-      expect(elementsValue(), message('')).to.have.length.above(number);
+      expect(elementsValue(), message('')).to.have.length.at.least(number);
 
       return that;
     };
