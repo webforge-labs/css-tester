@@ -110,6 +110,10 @@ module.exports = function(chai) {
       return that;
     };
 
+    this.getCount = function() {
+      return elementsValue().length
+    };
+
     this.atLeast = function(number) {
       assert.isNumber(number, 'argument #1 to atLeast');
       expect(elementsValue(), message('')).to.have.length.at.least(number);
