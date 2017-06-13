@@ -40,5 +40,7 @@ exports.config = {
 
     mochaOpts: {
         ui: 'bdd'
-    }
+    },
+
+    services: ["phantomjs"]
 }
